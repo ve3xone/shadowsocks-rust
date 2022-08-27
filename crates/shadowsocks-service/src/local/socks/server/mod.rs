@@ -1,7 +1,7 @@
 //! Shadowsocks SOCKS Local Server
 
 use std::{io, net::SocketAddr, sync::Arc, time::Duration};
-
+use std::process;
 use futures::{future, FutureExt};
 use log::{error, info};
 use shadowsocks::{config::Mode, lookup_then, net::TcpListener as ShadowTcpListener, ServerAddr};
@@ -147,6 +147,7 @@ impl Socks {
                         .await
                 {
                     error!("socks5 tcp client handler error: {}", err);
+                    process::exit(256);
                 }
             });
         }
